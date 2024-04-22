@@ -224,7 +224,7 @@ namespace Zoom
 			if (const auto buttonEvent = event->AsButtonEvent()) {
 				switch (GetUserEvent(device, buttonEvent)) {
 				case USER_EVENT::kZoom:
-					if (buttonEvent->IsDown()) {
+					if (buttonEvent->IsDown() && RE::ControlMap::GetSingleton()->textEntryCount == 0) {
 						ToggleItemZoom();
 					}
 					break;
