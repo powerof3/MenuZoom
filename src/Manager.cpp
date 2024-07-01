@@ -133,7 +133,7 @@ namespace Zoom
 		return false;
 	}
 
-	void Manager::DisableSelection(bool a_disable)
+	void Manager::DisableSelection(bool a_disable) const
 	{
 		if (menuType == MENU::kCrafting) {
 			if (auto menu = RE::UI::GetSingleton()->GetMenu<RE::CraftingMenu>()) {
@@ -212,6 +212,14 @@ namespace Zoom
 		}
 	}
 
+	void Manager::Reset()
+	{
+		cachedModel.reset();
+		isHoveringOverItem = false;
+		isZoomedIn = false;
+		justZoomedOut = false;
+	}
+
 	RE::BSEventNotifyControl Manager::ProcessEvent(RE::InputEvent* const* a_evn, RE::BSTEventSource<RE::InputEvent*>*)
 	{
 		if (!a_evn || !isInMenu) {
@@ -238,8 +246,12 @@ namespace Zoom
 						if (isZoomedIn) {
 							ToggleItemZoom();
 						} else if (justZoomedOut) {
-							RE::UIMessageQueue::GetSingleton()->AddMessage(menuType == MENU::kMagic ? RE::MagicMenu::MENU_NAME : RE::CraftingMenu::MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
-							justZoomedOut = false;
+							if (menuType == MENU::kCrafting) {
+								RE::CraftingMenu::QuitMenu();
+							} else {
+								RE::UIMessageQueue::GetSingleton()->AddMessage(RE::MagicMenu::MENU_NAME, RE::UI_MESSAGE_TYPE::kHide, nullptr);
+							}
+							Reset();
 						}
 					}
 					break;
@@ -285,10 +297,7 @@ namespace Zoom
 			}
 
 			// reset variables
-			cachedModel.reset();
-			isHoveringOverItem = false;
-			isZoomedIn = false;
-			justZoomedOut = false;
+			Reset();
 		}
 
 		return RE::BSEventNotifyControl::kContinue;

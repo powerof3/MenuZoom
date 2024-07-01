@@ -32,10 +32,12 @@ namespace Zoom
 
 		void TryCacheModel();
 		bool IsHoveringOverItem();
-		void DisableSelection(bool a_disable);
+		void DisableSelection(bool a_disable) const;
 		void ToggleMenuFade();
 
 		void ToggleItemZoom();
+
+		void Reset();
 
 		RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* a_evn, RE::BSTEventSource<RE::InputEvent*>*) override;
 		RE::BSEventNotifyControl ProcessEvent(const RE::MenuOpenCloseEvent* a_evn, RE::BSTEventSource<RE::MenuOpenCloseEvent>*) override;
