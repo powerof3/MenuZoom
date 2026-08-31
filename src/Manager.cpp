@@ -8,11 +8,11 @@ namespace Zoom
 	{
 		if (const auto inputMgr = RE::BSInputDeviceManager::GetSingleton()) {
 			inputMgr->AddEventSink<RE::InputEvent*>(GetSingleton());
-			logger::info("Registered for hotkey event");
+			REX::INFO("Registered for hotkey event");
 		}
 
 		RE::UI::GetSingleton()->AddEventSink<RE::MenuOpenCloseEvent>(GetSingleton());
-		logger::info("Registered for menu open/close event");
+		REX::INFO("Registered for menu open/close event");
 	}
 
 	bool Manager::IsZoomed() const

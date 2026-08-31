@@ -19,7 +19,7 @@ namespace Zoom
 	};
 
 	class Manager final :
-		public ISingleton<Manager>,
+		public REX::TSingleton<Manager>,
 		public RE::BSTEventSink<RE::MenuOpenCloseEvent>,
 		public RE::BSTEventSink<RE::InputEvent*>
 	{
@@ -43,21 +43,22 @@ namespace Zoom
 		RE::BSEventNotifyControl ProcessEvent(const RE::MenuOpenCloseEvent* a_evn, RE::BSTEventSource<RE::MenuOpenCloseEvent>*) override;
 
 		// members
-		bool isInMenu{ false };
-		MENU menuType;
-
-		bool isHoveringOverItem{ false };
-		bool isZoomedIn{ false };
-		bool justZoomedOut{ false };
-
 		RE::NiPointer<RE::NiAVObject> cachedModel{};
 		RE::NiPoint2                  screenPos;
-		float                         boundRadius{};
-		bool                          skipRotate{ false };
+
+		MENU menuType;
+
+		float boundRadius{};
 
 		double menuRectX{};
 		double menuRectY{};
 		double menuRectWidth{};
 		double menuRectHeight{};
+
+		bool isInMenu{ false };
+		bool skipRotate{ false };
+		bool isHoveringOverItem{ false };
+		bool isZoomedIn{ false };
+		bool justZoomedOut{ false };
 	};
 }
